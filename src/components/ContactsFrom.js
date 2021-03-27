@@ -1,22 +1,32 @@
-import React,{useContext} from "react";
-import InputHook from '../Hooks/InputHook'
-import {ContactsData} from '../context/ContactsData'
-import { v4 as uuidv4 } from 'uuid';
+import React, { useContext } from "react";
+import InputHook from "../Hooks/InputHook";
+import { ContactsData } from "../context/ContactsData";
+import { v4 as uuidv4 } from "uuid";
 
 const ContactForm = () => {
-   const {addContact}= useContext(ContactsData)
-    const [name,setName,resetName]=InputHook('')
-    const [email,setEmail,resetEmail]=InputHook('')
-    const [phone,setPhone,resetPhone]=InputHook('')
-   
-    const addNewContact=(e)=>{
-        e.preventDefault()
-        addContact({id:uuidv4(), name:name,email:email,phone:phone})
-        resetEmail()
-        resetName()
-        resetPhone()
+  const { dispatch } = useContext(ContactsData);
+  const [name, setName, resetName] = InputHook("");
+  const [email, setEmail, resetEmail] = InputHook("");
+  const [phone, setPhone, resetPhone] = InputHook("");
+
+  const addNewContact = (e) => {
+    e.preventDefault();
+
+    // dispatch({type:'ADD_CONTACT',
+    // newContact:{id:uuidv4(), name:name,email:email,phone:phone}})
+
+    // avoiding empty contact
+    if (name !== "" || email !== "" || phone !== "") {
+      dispatch({
+        type: "ADD_CONTACT",
+        newContact: { id: uuidv4(), name: name, email: email, phone: phone },
+      });
     }
 
+    resetEmail();
+    resetName();
+    resetPhone();
+  };
   return (
     <form onSubmit={addNewContact}>
       <div className="form-group">
@@ -41,7 +51,6 @@ const ContactForm = () => {
         />
       </div>
 
-
       <div className="form-group">
         <input
           type="text"
@@ -53,12 +62,8 @@ const ContactForm = () => {
         />
       </div>
 
-
       <div className="form-group">
-        <input
-          type="submit"
-          className="btn btn-info mt-2 mb-4"
-        />
+        <input type="submit" className="btn btn-info mt-2 mb-4" />
       </div>
     </form>
   );

@@ -4,7 +4,7 @@ import ContactsDetails from '../components/ContactsDetails'
 
 const Contacts=()=>{
     const {users}=useContext(ContactsData)
-    console.log(users)
+    // console.log(users)
 
     return(<>
        { users.length ? 
